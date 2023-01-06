@@ -31,7 +31,7 @@ public class WorkIntegrationTest {
     
 	@Test
 	public void test() throws Exception{
-		System.out.println("***** work integration test3 *****");
+		System.out.println("***** work integration test4 *****");
 		List<Work> works = registry.findWorksOfWorkflow(new WorkflowId("111"), WorkType.Doing);
 		System.out.println(works.size());
 	}
