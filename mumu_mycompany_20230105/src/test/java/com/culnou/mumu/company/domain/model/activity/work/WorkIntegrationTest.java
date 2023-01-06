@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.culnou.mumu.company.domain.model.activity.workflow.WorkflowId;
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class WorkTest {
+public class WorkIntegrationTest {
 	
 	
 	@Autowired

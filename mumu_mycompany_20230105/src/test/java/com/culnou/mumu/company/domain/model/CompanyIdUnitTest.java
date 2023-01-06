@@ -9,7 +9,7 @@ import org.junit.Test;
 
 
 
-public class CompanyIdTest {
+public class CompanyIdUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
