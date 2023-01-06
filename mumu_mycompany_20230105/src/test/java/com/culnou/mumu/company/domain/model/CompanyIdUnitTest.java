@@ -22,6 +22,7 @@ public class CompanyIdUnitTest {
 	//自己カプセル化のセッターの例外テスト：NULLを防いで正しく初期化できる
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetId() {
+		System.out.println("***** company id unit test1 *****");
 		String id = null;
 		CompanyId companyId = new CompanyId(id);
 		//実行されない。
