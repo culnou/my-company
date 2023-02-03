@@ -8,19 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.culnou.mumu.company.application.MemberTypeApplicationService;
-import com.culnou.mumu.company.application.PartnerTypeApplicationService;
-import com.culnou.mumu.company.domain.model.application.type.ApplicationTypeService;
-import com.culnou.mumu.company.domain.model.data.type.DataTypeService;
-import com.culnou.mumu.company.domain.model.financial.asset.type.FinancialAssetTypeService;
-import com.culnou.mumu.company.domain.model.place.type.PlaceTypeService;
-import com.culnou.mumu.compnay.controller.ApplicationTypeDto;
-import com.culnou.mumu.compnay.controller.DataTypeDto;
-import com.culnou.mumu.compnay.controller.FinancialAssetTypeDto;
-import com.culnou.mumu.compnay.controller.MemberTypeInfoDto;
+
 import com.culnou.mumu.compnay.controller.MessageDto;
-import com.culnou.mumu.compnay.controller.PartnerTypeDto;
-import com.culnou.mumu.compnay.controller.PlaceTypeDto;
+
 
 @Service
 @Transactional
@@ -50,6 +40,7 @@ public class BusinessDomainService {
 	@Qualifier("productTypeJpaRepository")
 	@Autowired
 	private ProductTypeRepository productTypeRepository;
+	/*
 	@Autowired
 	private MemberTypeApplicationService memberTypeService;
 	@Autowired
@@ -62,15 +53,24 @@ public class BusinessDomainService {
 	private ApplicationTypeService applicationTypeService;
 	@Autowired
 	private FinancialAssetTypeService financialAssetTypeService;
-	
+	*/
 	
 	
 	
 	public boolean isUsed(BusinessDomainId businessDomainId) throws Exception{
+		
 		boolean result = false;
 		//サインアップしたときに企業の事業ドメインを産業なしで自動作成するので、その場合を除くためbd.industry() != nullを追加した。2022/08/16
 		BusinessDomain bd = businessDomainRepository.businessDomainOfId(businessDomainId);
 		if(bd.industry() != null) {
+			
+			//事業ドメインが使用済かどうかで判断するように変更した。2023/2/4
+			if(bd.isUsed()) {
+				result = true;
+			}
+			
+			
+			/*
 			//事業単位
 			List<BusinessUnit> businessUnits = businessUnitRepository.businessUnitsOfDomain(businessDomainId);
 			if(businessUnits.size() > 0) {
@@ -126,6 +126,7 @@ public class BusinessDomainService {
 			if(financialAssetTypes.size() > 0) {
 				result = true;
 			}
+			*/
 		}
 		
 		

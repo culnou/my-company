@@ -36,5 +36,6 @@ public class BusinessDomainDto {
 	private List<AssociatedUrl> associatedUrls = new ArrayList<>();
 	private List<AssociatedProductType> associatedProductTypes = new ArrayList<>();
 	private List<AssociatedCustomerType> associatedCustomerTypes = new ArrayList<>();
+	private boolean used;
 
 }

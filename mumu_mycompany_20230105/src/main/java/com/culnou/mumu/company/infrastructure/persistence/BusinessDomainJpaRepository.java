@@ -41,6 +41,7 @@ public class BusinessDomainJpaRepository extends AbstractBusinessDomainRepositor
 		if(businessDomain == null) {
 			throw new IllegalArgumentException("The businessDomain may not be set to null.");
 		}
+		
 		repository.save(this.convertBusinessDomainToBusinessDomainEntity(businessDomain));
 	}
 	
@@ -168,6 +169,7 @@ public class BusinessDomainJpaRepository extends AbstractBusinessDomainRepositor
 	    if(entity.getUpdatedAt() != null) {
 	    	businessDomain.setUpdatedAt(entity.getUpdatedAt());
 	    }
+	    businessDomain.setUsed(entity.isUsed());
 	    
 	    return businessDomain;
 	}
@@ -234,6 +236,8 @@ public class BusinessDomainJpaRepository extends AbstractBusinessDomainRepositor
 		if(businessDomain.getUpdatedAt() != null) {
 			entity.setUpdatedAt(businessDomain.getUpdatedAt());
 		}
+		entity.setUsed(businessDomain.isUsed());
+		
 		return entity;
 	}
 	

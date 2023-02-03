@@ -293,6 +293,7 @@ public class CompanyServiceImpl implements CompanyService {
 		if(businessDomain.getIndicators() != null) {
 			dto.setIndicators(businessDomain.getIndicators());
 		}
+		dto.setUsed(businessDomain.isUsed());	
 		return dto;
 	}
 	
@@ -1641,6 +1642,10 @@ public class CompanyServiceImpl implements CompanyService {
 		businessUnitDto.setBusinessUnitId(businessUnit.businessUnitId().businessUnitId());
 		businessUnitDto.setCompanyId(businessUnit.companyId().id());
 		businessUnitDto.setBusinessDomainName(businessUnit.businessDomainName());
+		//2023/2/3追加
+		//事業ドメインを使用済にする。
+		businessDomain.setUsed(true);
+		businessDomainRepository.save(businessDomain);	
 		return businessUnitDto;
 
 	}
@@ -1754,6 +1759,10 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		businessUnit.setUpdatedAt(new Date());	
 		businessUnitRepository.save(businessUnit);
+		//2023/2/3追加
+		//事業ドメインを使用済にする。
+		businessDomain.setUsed(true);
+		businessDomainRepository.save(businessDomain);
 
 		
 	}

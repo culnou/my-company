@@ -87,6 +87,8 @@ public class BusinessDomainEntity {
 	private Date createdAt;
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	@Column(name = "used")
+	private boolean used;
 	
 	
 	

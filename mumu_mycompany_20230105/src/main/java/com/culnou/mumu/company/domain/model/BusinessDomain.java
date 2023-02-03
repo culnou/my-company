@@ -62,6 +62,9 @@ public class BusinessDomain {
 	@Setter
 	@Getter
 	private Date updatedAt;
+	@Setter
+	@Getter
+	private boolean used;
 	
 	public BusinessDomain(CompanyId companyId, BusinessDomainId businessDmainId) {
 		this.setCompanyId(companyId);

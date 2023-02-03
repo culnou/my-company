@@ -2,11 +2,9 @@ package com.culnou.mumu.company.application.member.category;
 
 
 
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,7 +28,7 @@ import com.culnou.mumu.company.domain.model.CompanyRepository;
 import com.culnou.mumu.company.domain.model.member.category.MemberCategory;
 import com.culnou.mumu.company.domain.model.member.category.MemberCategoryId;
 import com.culnou.mumu.company.domain.model.member.category.MemberCategoryRegistry;
-import com.culnou.mumu.company.domain.model.member.category.MemberCategoryRepository;
+
 import com.culnou.mumu.company.domain.model.member.type.AssociatedMemberType;
 import com.culnou.mumu.company.domain.model.member.type.MemberClass;
 import com.culnou.mumu.company.domain.model.member.type.MemberType;
@@ -106,6 +104,7 @@ public class CategorizeMemberIntegrationTest {
 	@Test
 	public void registerMemberCategoryTest() throws Exception{
 		System.out.println("***** メンバーカテゴリの登録*****");
+		
 		//EAが「メンバーカテゴリ追加画面」でメンバータイプ（メンバータイプ名:member_type001）を選択し、メンバーカテゴリ名（メンバーカテゴリ名:member_category001）、メンバーカテゴリ概要（メンバーカテゴリ概要:member_category001_description）を入力し登録すると、システムは「メンバーカテゴリを登録しました」というメッセージを出力し、 「メンバーカテゴリ一覧画面」を表示する
 		MemberCategoryId memberId = memberCategoryRegistry.nextIdentity();
 		memberCategory = businessUnit.defineMemberCategory(memberId, "member_category001");
@@ -115,6 +114,7 @@ public class CategorizeMemberIntegrationTest {
 		memberCategory.getAssociatedMemberTypes().add(associatedMemberType);
 		memberCategory.setMemberCategoryDescription("member_category001_description");
 		memberCategoryRegistry.save(memberCategory);
+		
 		//EAがメンバーカテゴリ情報を登録した場合、システムのメンバーカテゴリ情報が登録されていること
 		MemberCategory category = memberCategoryRegistry.findMemberCategoryOfId(memberCategory.getMemberCategoryId().getMemberCategoryId());
 		assertNotNull(category);
