@@ -377,7 +377,7 @@ public class CompanyServiceImpl implements CompanyService {
 		if(businessUnit.getEndDate() != null) {
 			dto.setEndDate(businessUnit.getEndDate());		
 		}
-		
+		dto.setUsed(businessUnit.isUsed());	
 		
 		return dto;
 	}

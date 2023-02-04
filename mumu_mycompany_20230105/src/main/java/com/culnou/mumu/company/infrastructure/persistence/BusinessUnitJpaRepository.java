@@ -191,6 +191,8 @@ public class BusinessUnitJpaRepository extends AbstractBusinessUnitRepository {
 	    	businessUnit.setUpdatedAt(entity.getUpdatedAt());
 	    }
 	    
+	    businessUnit.setUsed(entity.isUsed());
+	    
 	    return businessUnit;
 	}
 	
@@ -272,6 +274,7 @@ public class BusinessUnitJpaRepository extends AbstractBusinessUnitRepository {
 		if(businessUnit.getUpdatedAt() != null) {
 			entity.setUpdatedAt(businessUnit.getUpdatedAt());
 		}
+		entity.setUsed(businessUnit.isUsed());
 		return entity;
 	}
 

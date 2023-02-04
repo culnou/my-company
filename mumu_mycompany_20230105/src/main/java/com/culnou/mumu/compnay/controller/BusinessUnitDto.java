@@ -42,6 +42,7 @@ public class BusinessUnitDto {
 	private Date startDate;
 	private Date endDate;
 	private BusinessState businessState;
+	private boolean used;
 	
 	
 }

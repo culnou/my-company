@@ -8,22 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.culnou.mumu.company.application.ApplicationCategoryApplicationService;
-import com.culnou.mumu.company.application.DataCategoryApplicationService;
-import com.culnou.mumu.company.application.FinancialAssetCategoryApplicationService;
-import com.culnou.mumu.company.application.MemberCategoryApplicationService;
-import com.culnou.mumu.company.application.PartnerCategoryApplicationService;
-import com.culnou.mumu.company.application.PlaceCategoryApplicationService;
-import com.culnou.mumu.company.domain.model.program.ProgramService;
-import com.culnou.mumu.company.domain.model.project.ProjectService;
-import com.culnou.mumu.compnay.controller.ApplicationCategoryDto;
-import com.culnou.mumu.compnay.controller.DataCategoryDto;
-import com.culnou.mumu.compnay.controller.FinancialAssetCategoryDto;
-import com.culnou.mumu.compnay.controller.MemberCategoryDto;
-import com.culnou.mumu.compnay.controller.PartnerCategoryDto;
-import com.culnou.mumu.compnay.controller.PlaceCategoryDto;
-import com.culnou.mumu.compnay.controller.ProgramDto;
-import com.culnou.mumu.compnay.controller.ProjectDto;
+
+
 
 @Service
 @Transactional
@@ -44,6 +30,7 @@ public class BusinessUnitService {
 	@Qualifier("productCategoryJpaRepository")
 	@Autowired
 	private ProductCategoryRepository productCategoryRepository;
+	/*
 	@Autowired
 	private MemberCategoryApplicationService memberCategoryService;
 	@Autowired
@@ -60,10 +47,21 @@ public class BusinessUnitService {
 	private ProjectService projectService;
 	@Autowired
 	private ProgramService programService;
+	*/
 	
 	public boolean isUsed(BusinessUnitId businessUnitId) throws Exception{
 		//事業単位が顧客カテゴリ、製品カテゴリ、部門、プロジェクト、プログラムで使用されているかチェックする。
 		boolean result = false;
+		
+		
+		
+		//使用中かどうかで判断するように変更。2023/2/3
+		BusinessUnit businessUnit =businessUnitRepository.businessUnitOfId(businessUnitId);
+		if(businessUnit.isUsed()) {
+			result = true;
+		}
+		
+		/*
 		List<CustomerCategory> customers = customerCategoryRepository.customerCategoriesOfBusinessUnit(businessUnitId);
 		if(customers.size() > 0) {
 			result = true;
@@ -125,6 +123,7 @@ public class BusinessUnitService {
 		if(programs.size() > 0) {
 			result = true;
 		}
+		*/
 		
 		
 		

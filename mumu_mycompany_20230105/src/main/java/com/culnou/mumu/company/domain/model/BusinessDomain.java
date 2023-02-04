@@ -275,6 +275,9 @@ public class BusinessDomain {
 		if(memberClass == null) {
 			throw new IllegalArgumentException("The_memberClass_may_not_be_set_to_null");
 		}
+		//使用中にする。2023/2/4
+		this.setUsed(true);
+		
 		return new MemberType(this.companyId, this.businessDomainId, memberTypeId, memberTypeName, memberClass);
 	}
 	

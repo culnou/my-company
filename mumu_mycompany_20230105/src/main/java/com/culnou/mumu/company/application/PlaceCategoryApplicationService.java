@@ -69,6 +69,7 @@ public class PlaceCategoryApplicationService {
 			placeCategory.setAchievements(dto.getAchievements());
 			placeCategory.setCreatedAt(new Date());
 			registry.save(placeCategory);
+			businessUnitRepository.save(businessUnit);
 			message.setReturnValue(placeId.getPlaceCategoryId());
 			message.setResult("OK");
 		}catch(Exception ex) {

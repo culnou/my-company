@@ -93,6 +93,9 @@ public class BusinessUnit {
 	@Setter
 	@Getter
 	private Date updatedAt;
+	@Setter
+	@Getter
+	private boolean used;
 	
 	
 	
@@ -323,6 +326,8 @@ public class BusinessUnit {
 			throw new IllegalArgumentException("The_placeCategoryName_may_not_be_set_to_null");
 		}
 		//ビジネスロジック
+		//使用中にする。2023/2/3
+		this.setUsed(true);
 		return new PlaceCategory(id, name, companyId, businessUnitId);
 	}
 	
