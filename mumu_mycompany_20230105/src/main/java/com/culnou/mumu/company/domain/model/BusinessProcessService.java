@@ -76,10 +76,17 @@ public class BusinessProcessService {
 	
 	public boolean isUsed(BusinessProcessId businessProcessId) throws Exception{
 		boolean result = false;
+		
+		BusinessProcess businessProcess = repository.businessProcessOfId(businessProcessId);
+		if(businessProcess.isUsed()) {
+			result = true;
+		}
+		/*
 		List<ActionPlan> actionPlans = actionPlanRepository.actionPlansOfBusinessProcess(businessProcessId);
 		if(actionPlans.size() > 0) {
 			result = true;
 		}
+		*/
 		return result;
 	}
 	

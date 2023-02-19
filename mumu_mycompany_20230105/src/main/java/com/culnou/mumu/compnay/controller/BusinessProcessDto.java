@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.culnou.mumu.company.domain.model.AssociatedBusinessProcess;
 import com.culnou.mumu.company.domain.model.AssociatedTask;
 import com.culnou.mumu.company.domain.model.BusinessProcessClass;
 
@@ -24,9 +25,11 @@ public class BusinessProcessDto {
 	private String businessDomainId;
 	private String businessDomainName;
 	private List<AssociatedTask> associatedTasks = new ArrayList<>();
+	private List<AssociatedBusinessProcess> associatedBusinessProcesses = new ArrayList<>();
 	private String businessProcessDescription;
 	private BusinessProcessClass businessProcessClass;
 	private String url;
 	private List<Indicator> indicators = new ArrayList<>();
-	
+	private boolean used;
+	private String parent;
 }

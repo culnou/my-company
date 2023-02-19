@@ -15,10 +15,10 @@ public interface BusinessProcessJpaDataRepository extends JpaRepository<Business
 	
     public BusinessProcessEntity findByBusinessProcessId(BusinessProcessId businessProcessId);
 	
-	@Query(value = "select businessProcess from BusinessProcessEntity businessProcess where businessProcess.companyId = :CompanyId")
+	@Query(value = "select businessProcess from BusinessProcessEntity businessProcess where businessProcess.companyId = :CompanyId and businessProcess.parent IS NULL")
 	public List<BusinessProcessEntity> findBusinessProcessesOfCompany(@Param("CompanyId") CompanyId companyId);
 	
-	@Query(value = "select businessProcess from BusinessProcessEntity businessProcess where businessProcess.businessDomainId = :BusinessDomainId")
+	@Query(value = "select businessProcess from BusinessProcessEntity businessProcess where businessProcess.businessDomainId = :BusinessDomainId and businessProcess.parent IS NULL")
 	public List<BusinessProcessEntity> findBusinessProcessesOfBusinessDomain(@Param("BusinessDomainId") BusinessDomainId businessDomainId);
 	
 	

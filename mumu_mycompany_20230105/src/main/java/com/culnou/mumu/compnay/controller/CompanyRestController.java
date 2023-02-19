@@ -102,6 +102,8 @@ import com.culnou.mumu.company.domain.model.product.work.ProductWorkService;
 import com.culnou.mumu.company.domain.model.program.ProgramService;
 import com.culnou.mumu.company.domain.model.project.ProjectService;
 import com.culnou.mumu.company.domain.model.service.ProductServiceService;
+
+
 import com.culnou.mumu.company.domain.service.IndicatorType;
 
 
@@ -299,6 +301,10 @@ public class CompanyRestController {
 	
 	@Autowired
 	private PlaceApplicationService placeService;
+	
+	
+	
+	
 	
 	
 	
@@ -1612,6 +1618,13 @@ public class CompanyRestController {
 	public ResponseEntity<MessageDto> createBusinessProcess(@RequestBody BusinessProcessDto businessProcessDto) throws Exception{
 		return ResponseEntity.ok().body((MessageDto)this.businessProcessApplicationService.defineBusinessProcess(businessProcessDto));
 	}
+	
+	@PostMapping("/businessProcesses/{businessProcessId}/{order}")
+	@CrossOrigin
+	public ResponseEntity<MessageDto> addSubProcess(@RequestBody BusinessProcessDto businessProcessDto, @PathVariable String businessProcessId, @PathVariable String order) throws Exception{
+		return ResponseEntity.ok().body((MessageDto)this.businessProcessApplicationService.addSubProcess(businessProcessDto, businessProcessId, order));
+	}
+	
 	/*
 	@PutMapping("/businessProcesses")
 	@CrossOrigin
@@ -1868,6 +1881,21 @@ public class CompanyRestController {
 	public ResponseEntity<List<ActionDto>> findActionsByActionPlanId(@PathVariable String actionPlanId) throws Exception{
 		return ResponseEntity.ok().body((List<ActionDto>)this.companyService.findActionsOfActionPlan(actionPlanId));
 	}
+	
+	@GetMapping("/subProcesses/actionPlan/{actionPlanId}")
+	@CrossOrigin
+	public ResponseEntity<List<BusinessProcessDto>> findSubProcessesByActionPlanId(@PathVariable String actionPlanId) throws Exception{
+		return ResponseEntity.ok().body((List<BusinessProcessDto>)this.companyService.findSubProcessesOfActionPlan(actionPlanId));
+	}
+	
+	@GetMapping("/actions/subProcesses/{businessProcessId}")
+	@CrossOrigin
+	public ResponseEntity<List<ActionDto>> findActionsBySubProcessId(@PathVariable String businessProcessId) throws Exception{
+		return ResponseEntity.ok().body((List<ActionDto>)this.companyService.findActionsOfSubProcess(businessProcessId));
+	}
+	
+	
+	
 	
 	/*
 	 * 製品アクション

@@ -361,6 +361,10 @@ public interface CompanyService {
 	
 	public List<ActionPlanDto> findActionPlansOfBusinessProcess(String businessProcessId) throws Exception;
 	
+	public List<BusinessProcessDto> findSubProcessesOfActionPlan(String actionPlanId) throws Exception;
+	
+	public List<ActionDto> findActionsOfSubProcess(String businessProcessId) throws Exception;
+	
 	public List<ActionPlanDto> findActionPlansOfBusinessUnit(String businessUnitId) throws Exception;
 
 	public List<ActionPlanDto> findActionPlansOfAction(String actionId) throws Exception;

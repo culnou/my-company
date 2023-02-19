@@ -37,6 +37,10 @@ public class BusinessProcessJpaRepository extends AbstractBusinessProcessReposit
 			pojo.setAssociatedTasks(entity.getAssociatedTasks());
 
 		}
+		if(entity.getAssociatedBusinessProcesses() != null) {
+			pojo.setAssociatedBusinessProcesses(entity.getAssociatedBusinessProcesses());
+
+		}
 		if(entity.getBusinessProcessDescription() != null) {
 			pojo.setBusinessProcessDescription(entity.getBusinessProcessDescription());
 		}
@@ -55,7 +59,10 @@ public class BusinessProcessJpaRepository extends AbstractBusinessProcessReposit
 	    if(entity.getUpdatedAt() != null) {
 	    	pojo.setUpdatedAt(entity.getUpdatedAt());
 	    }
-		
+	    if(entity.getParent() != null) {
+	    	pojo.setParent(entity.getParent());
+	    }
+		pojo.setUsed(entity.isUsed());
 		return pojo;
 	}
 	
@@ -76,6 +83,9 @@ public class BusinessProcessJpaRepository extends AbstractBusinessProcessReposit
 		if(pojo.getAssociatedTasks() != null) {
 			entity.setAssociatedTasks(pojo.getAssociatedTasks());
 		}
+		if(pojo.getAssociatedBusinessProcesses() != null) {
+			entity.setAssociatedBusinessProcesses(pojo.getAssociatedBusinessProcesses());
+		}
 		if(pojo.getBusinessProcessDescription() != null) {
 			entity.setBusinessProcessDescription(pojo.getBusinessProcessDescription());
 		}
@@ -94,6 +104,11 @@ public class BusinessProcessJpaRepository extends AbstractBusinessProcessReposit
 		if(pojo.getUpdatedAt() != null) {
 			entity.setUpdatedAt(pojo.getUpdatedAt());
 		}
+		if(pojo.getParent() != null) {
+			entity.setParent(pojo.getParent());
+		}
+		entity.setUsed(pojo.isUsed());
+		
 		return entity;
 	}
 	

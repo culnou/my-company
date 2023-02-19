@@ -69,6 +69,36 @@ public class ActionPlanService {
 		}
 		return actions;
 	}
+	
+	//アクションプランに対するサブプロセスの取得
+	public List<BusinessProcess> subProcessesOfActionPlan(ActionPlanId actionPlanId) throws Exception{
+		//アクションプランの取得
+		ActionPlan actionPlan = repository.actionPlanOfId(actionPlanId);
+		//アクションプランに対応するビジネスプロセスの取得
+		BusinessProcessId businessProcessId = actionPlan.getBusinessProcessId();
+		BusinessProcess businessProcess = businessProcessRepository.businessProcessOfId(businessProcessId);
+		List<BusinessProcess> subProcesses = new ArrayList<>();
+		List<AssociatedBusinessProcess> bps = businessProcess.getAssociatedBusinessProcesses();
+		for(AssociatedBusinessProcess bp : bps) {
+			BusinessProcess sp = businessProcessRepository.businessProcessOfId(new BusinessProcessId(bp.getBusinessProcessId()));
+		    subProcesses.add(sp);
+		}
+		return subProcesses;
+	}
+	
+	//サブプロセスに対するアクションの取得
+	public List<Action> actionsOfSubProcess(BusinessProcessId businessProcessId) throws Exception{
+		BusinessProcess businessProcess = businessProcessRepository.businessProcessOfId(businessProcessId);
+		//ビジネスプロセスに対応するアクションを取得
+		List<AssociatedTask> associatedTasks = businessProcess.getAssociatedTasks();
+		List<Action> actions = new ArrayList<>();
+		for(AssociatedTask task : associatedTasks) {
+			TaskId taskId = new TaskId(task.getTaskId());
+			List<Action> acts = actionRepository.findActionsOfTask(taskId);
+			actions.addAll(acts);
+		}
+		return actions;
+	}
 
 
 }

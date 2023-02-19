@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.culnou.mumu.company.adapter.messaging.Command;
+import com.culnou.mumu.company.adapter.messaging.CommandExecutor;
+import com.culnou.mumu.company.adapter.messaging.CommandName;
 import com.culnou.mumu.company.domain.model.BusinessUnit;
 import com.culnou.mumu.company.domain.model.BusinessUnitId;
 import com.culnou.mumu.company.domain.model.BusinessUnitRepository;
@@ -19,6 +22,7 @@ import com.culnou.mumu.company.domain.model.place.category.PlaceCategory;
 import com.culnou.mumu.company.domain.model.place.category.PlaceCategoryId;
 import com.culnou.mumu.company.domain.model.place.category.PlaceCategoryRegistry;
 import com.culnou.mumu.company.domain.service.PlaceCategoryChecker;
+
 import com.culnou.mumu.compnay.controller.PlaceCategoryDto;
 import com.culnou.mumu.compnay.controller.MessageDto;
 
@@ -32,6 +36,8 @@ public class PlaceCategoryApplicationService {
 	private PlaceCategoryRegistry registry;
 	@Autowired
 	private PlaceCategoryChecker checker;
+	@Autowired
+	private CommandExecutor commandExecutor;
 	
 	public MessageDto addPlaceCategory(PlaceCategoryDto dto) {
 		MessageDto message = new MessageDto();
@@ -145,6 +151,13 @@ public class PlaceCategoryApplicationService {
 				throw new Exception(checker.avarable(placeCategoryId));
 			}
 			registry.remove(placeCategory);
+			
+			//非同期コマンドの実行
+			Command command = new Command();
+			command.setCommandName(CommandName.CheckBusinessUnitUsed);
+			command.getMessage().put("BusinessUnitId", placeCategory.getBusinessUnitId().businessUnitId());
+			commandExecutor.execute(command);
+			
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");

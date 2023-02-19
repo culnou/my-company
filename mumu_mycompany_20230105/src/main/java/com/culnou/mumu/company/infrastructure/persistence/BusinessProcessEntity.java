@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.culnou.mumu.company.domain.model.AssociatedBusinessProcess;
 import com.culnou.mumu.company.domain.model.AssociatedTask;
 import com.culnou.mumu.company.domain.model.BusinessDomainId;
 import com.culnou.mumu.company.domain.model.BusinessProcessClass;
@@ -49,6 +50,8 @@ public class BusinessProcessEntity {
 	private String businessDomainName;
 	@ElementCollection
 	private List<AssociatedTask> associatedTasks = new ArrayList<>();
+	@ElementCollection
+	private List<AssociatedBusinessProcess> associatedBusinessProcesses = new ArrayList<>();
 	@Column(name = "business_process_description")
 	private String businessProcessDescription;
 	@Enumerated(EnumType.STRING)
@@ -62,5 +65,9 @@ public class BusinessProcessEntity {
 	private Date createdAt;
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	@Column(name = "used")
+	private boolean used;
+	@Column(name = "parent")
+	private String parent;
 
 }

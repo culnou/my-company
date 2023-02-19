@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.culnou.mumu.company.adapter.messaging.Command;
+import com.culnou.mumu.company.adapter.messaging.CommandExecutor;
+import com.culnou.mumu.company.adapter.messaging.CommandName;
 import com.culnou.mumu.company.application.CompanyService;
 import com.culnou.mumu.company.domain.model.Action;
 import com.culnou.mumu.company.domain.model.ActionId;
@@ -18,7 +21,7 @@ import com.culnou.mumu.company.domain.model.ActionPlanRepository;
 import com.culnou.mumu.company.domain.model.ActionPlanService;
 import com.culnou.mumu.company.domain.model.ActionRepository;
 import com.culnou.mumu.company.domain.model.Address;
-
+import com.culnou.mumu.company.domain.model.AssociatedBusinessProcess;
 import com.culnou.mumu.company.domain.model.BusinessDomain;
 import com.culnou.mumu.company.domain.model.BusinessDomainId;
 import com.culnou.mumu.company.domain.model.BusinessDomainRepository;
@@ -93,6 +96,8 @@ import com.culnou.mumu.company.domain.model.partner.category.AssociatedPartnerCa
 import com.culnou.mumu.company.domain.model.project.ProjectId;
 
 import com.culnou.mumu.company.domain.service.DepartmentChecker;
+import com.culnou.mumu.company.domain.service.business.process.CheckBusinessProcessUsed;
+import com.culnou.mumu.company.domain.service.business.unit.CheckBusinessUnitUsed;
 import com.culnou.mumu.compnay.controller.ActionDto;
 import com.culnou.mumu.compnay.controller.ActionPlanDto;
 import com.culnou.mumu.compnay.controller.ApplicationTaskDto;
@@ -225,7 +230,14 @@ public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private DepartmentChecker departmentChecker;
 	
+	@Autowired
+	private CheckBusinessUnitUsed checkBusinessUnitUsed;
 	
+	@Autowired
+	private CheckBusinessProcessUsed checkBusinessProcessUsed;
+	
+	@Autowired
+	private CommandExecutor commandExecutor;
 	
 	
 	
@@ -921,6 +933,13 @@ public class CompanyServiceImpl implements CompanyService {
 			businessProcess.sortAssociatedTasks();
 			dto.setAssociatedTasks(businessProcess.getAssociatedTasks());
 		}
+		
+		if(businessProcess.getAssociatedBusinessProcesses() != null) {
+			//タスクをソートする。
+			businessProcess.sortAssociatedBusinessProcesses();
+			dto.setAssociatedBusinessProcesses(businessProcess.getAssociatedBusinessProcesses());
+		}
+		
 		if(businessProcess.getBusinessProcessDescription() != null) {
 			dto.setBusinessProcessDescription(businessProcess.getBusinessProcessDescription());
 		}
@@ -932,6 +951,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		if(businessProcess.getIndicators() != null) {
 			dto.setIndicators(businessProcess.getIndicators());
+		}
+		if(businessProcess.getParent() != null) {
+			dto.setParent(businessProcess.getParent());
 		}
 		return dto;
 	}
@@ -1781,6 +1803,9 @@ public class CompanyServiceImpl implements CompanyService {
 		//Repositoryで存在チェックは行っているが、アプリケーションサービスをRepository非依存にするために存在チェックをする。
 		if(businessUnit == null) {
 			throw new Exception("The businessUnit name may not be set to null.");
+		}
+		if(checkBusinessUnitUsed.check(businessUnit.businessUnitId())) {
+			throw new Exception("The_businessUnit_is_used");
 		}
 		businessUnitRepository.remove(businessUnit);
 		
@@ -3797,6 +3822,9 @@ public class CompanyServiceImpl implements CompanyService {
         if(businessProcessDto.getUrl() != null) {
         	businessProcess.setUrl(new Url(businessProcessDto.getUrl()));
         }
+        if(businessProcessDto.getParent() != null) {
+        	businessProcess.setParent(businessProcessDto.getParent());       
+        }
         if(businessProcessDto.getIndicators() != null) {
         	businessProcess.setIndicators(businessProcessDto.getIndicators());
         }
@@ -3842,6 +3870,9 @@ public class CompanyServiceImpl implements CompanyService {
         if(businessProcessDto.getUrl() != null) {
         	businessProcess.setUrl(new Url(businessProcessDto.getUrl()));
         }
+        if(businessProcessDto.getParent() != null) {
+        	businessProcess.setParent(businessProcessDto.getParent());       
+        }
         if(businessProcessDto.getIndicators() != null) {
         	businessProcess.setIndicators(businessProcessDto.getIndicators());
         }
@@ -3856,6 +3887,28 @@ public class CompanyServiceImpl implements CompanyService {
 		if(businessProcess == null) {
 			throw new Exception("The businessProcess does not exist.");
 		}
+		if(checkBusinessProcessUsed.check(businessProcess.getBusinessProcessId())) {
+			throw new Exception("The_businessProcess_is_used");
+		}
+		//サブプロセスのチェック
+		List<AssociatedBusinessProcess> associatedBusinessProcesses = businessProcess.getAssociatedBusinessProcesses();
+		for(AssociatedBusinessProcess associatedBusinessProcess : associatedBusinessProcesses) {
+			BusinessProcess bp = businessProcessRepository.businessProcessOfId(new BusinessProcessId(associatedBusinessProcess.getBusinessProcessId()));
+			if(bp == null) {
+				throw new Exception("The businessProcess does not exist.");
+			}
+			
+			if(checkBusinessProcessUsed.check(bp.getBusinessProcessId())) {
+				throw new Exception("The_businessProcess_is_used");
+			}
+		}
+		//サブプロセスの削除
+		for(AssociatedBusinessProcess associatedBusinessProcess : associatedBusinessProcesses) {
+			BusinessProcess bp = businessProcessRepository.businessProcessOfId(new BusinessProcessId(associatedBusinessProcess.getBusinessProcessId()));
+			businessProcessRepository.remove(bp);
+		}
+		
+		
 		businessProcessRepository.remove(businessProcess);
 	}
 
@@ -4017,6 +4070,13 @@ public class CompanyServiceImpl implements CompanyService {
 		if(actionPlan == null) {
 			throw new Exception("The actionPlan does not exist.");
 		}
+		
+		//非同期コマンドの実行
+		Command command = new Command();
+		command.setCommandName(CommandName.CheckBusinessProcessUsed);
+		command.getMessage().put("BusinessProcessId", actionPlan.getActionPlanId().actionPlanId());
+		commandExecutor.execute(command);
+		
 		actionPlanRepository.remove(actionPlan);
 	}
 
@@ -4121,6 +4181,22 @@ public class CompanyServiceImpl implements CompanyService {
 		List<Action> actions = actionPlanService.actionsOfActionPlan(new ActionPlanId(actionPlanId));
 		return this.convertActionsToActionDtos(actions);
 	}
+	
+	public List<BusinessProcessDto> findSubProcessesOfActionPlan(String actionPlanId) throws Exception{
+		if(actionPlanId == null) {
+			throw new IllegalArgumentException("actionPlanId dose not exixt.");
+		}
+		List<BusinessProcess> subProcesses = actionPlanService.subProcessesOfActionPlan(new ActionPlanId(actionPlanId));
+		return this.convertBusinessProcessesToBusinessProcessDtos(subProcesses);
+	}
+	public List<ActionDto> findActionsOfSubProcess(String businessProcessId) throws Exception{
+		if(businessProcessId == null) {
+			throw new IllegalArgumentException("businessProcessId dose not exixt.");
+		}
+		List<Action> actions = actionPlanService.actionsOfSubProcess(new BusinessProcessId(businessProcessId));
+		return this.convertActionsToActionDtos(actions);
+	}
+	
 
 	/*
 	 * 製品アクション

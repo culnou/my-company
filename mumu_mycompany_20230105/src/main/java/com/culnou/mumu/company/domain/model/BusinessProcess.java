@@ -24,6 +24,8 @@ public class BusinessProcess {
 	@Setter
 	private List<AssociatedTask> associatedTasks = new ArrayList<>();
 	@Setter
+	private List<AssociatedBusinessProcess> associatedBusinessProcesses = new ArrayList<>();
+	@Setter
 	private String businessProcessDescription;
 	@Setter
 	private Url url;
@@ -38,6 +40,12 @@ public class BusinessProcess {
 	@Setter
 	@Getter
 	private Date updatedAt;
+	@Setter
+	@Getter
+	private boolean used;
+	@Setter
+	@Getter
+	private String parent;
 	
 	protected void setBusinessProcessId(BusinessProcessId businessProcessId) {
 		if(businessProcessId == null) {
@@ -74,6 +82,10 @@ public class BusinessProcess {
 		Collections.sort(this.associatedTasks, new BusinessProcessTaskComparator());
 	}
 	
+	public void sortAssociatedBusinessProcesses(){
+		Collections.sort(this.associatedBusinessProcesses, new BusinessProcessBusinessProcessComparator());
+	}
+	
 	protected BusinessProcess(BusinessProcessId businessProcessId, CompanyId companyId, BusinessProcessType businessProcessType, String businessProcessName) {
 		this.setBusinessProcessId(businessProcessId);
 		this.setCompanyId(companyId);
@@ -87,7 +99,15 @@ public class BusinessProcess {
     	if(actionPlanName == null) {
 			throw new IllegalArgumentException("The actionPlanName may not be set to null.");
 		}
+		//ビジネスロジック
+		//使用中にする。2023/2/19
+		this.setUsed(true);
+    	
     	return new ActionPlan(actionPlanId, this.companyId, this.businessProcessId, this.businessProcessName, actionPlanType, actionPlanName);
+    }
+    
+    public BusinessProcess createSubProcess() {
+    	return null;
     }
     
     
