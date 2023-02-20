@@ -36,10 +36,9 @@ public class CommandReceiver {
 	
 	@JmsListener(destination = "commandQueue", containerFactory = "mumuFactory")
 	public void receive(Command command) throws Exception{
-		
 		switch (command.getCommandName()) {
 		case CheckBusinessUnitUsed:
-            /*
+	        /*
              * 事業単位が使用されているかチェックし、使用されていない場合、BusinessUnit#used=falseにする。
              */
 			BusinessUnitId businessUnitId = new BusinessUnitId(command.getMessage().get("BusinessUnitId"));

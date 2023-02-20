@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.culnou.mumu.company.adapter.messaging.Command;
-import com.culnou.mumu.company.adapter.messaging.CommandExecutor;
-import com.culnou.mumu.company.adapter.messaging.CommandName;
+
 import com.culnou.mumu.company.application.CompanyService;
 import com.culnou.mumu.company.domain.model.Action;
 import com.culnou.mumu.company.domain.model.ActionId;
@@ -236,8 +234,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private CheckBusinessProcessUsed checkBusinessProcessUsed;
 	
-	@Autowired
-	private CommandExecutor commandExecutor;
+	
 	
 	
 	
@@ -3887,7 +3884,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(businessProcess == null) {
 			throw new Exception("The businessProcess does not exist.");
 		}
+		//ビジネスプロセスの使用チェック
 		if(checkBusinessProcessUsed.check(businessProcess.getBusinessProcessId())) {
+			System.out.println("***** The_businessProcess_is_used");
 			throw new Exception("The_businessProcess_is_used");
 		}
 		//サブプロセスのチェック
@@ -3897,7 +3896,7 @@ public class CompanyServiceImpl implements CompanyService {
 			if(bp == null) {
 				throw new Exception("The businessProcess does not exist.");
 			}
-			
+			System.out.println("***** The_subProcess_is_used" + checkBusinessProcessUsed.check(bp.getBusinessProcessId()));
 			if(checkBusinessProcessUsed.check(bp.getBusinessProcessId())) {
 				throw new Exception("The_businessProcess_is_used");
 			}
@@ -3997,6 +3996,7 @@ public class CompanyServiceImpl implements CompanyService {
 			actionPlan.setAchievements(actionPlanDto.getAchievements());
 		}
 		actionPlanRepository.save(actionPlan);
+		businessProcessRepository.save(businessProcess);
 		actionPlanDto.setActionPlanId(actionPlan.getActionPlanId().actionPlanId());
 		return actionPlanDto;
 	}
@@ -4070,13 +4070,6 @@ public class CompanyServiceImpl implements CompanyService {
 		if(actionPlan == null) {
 			throw new Exception("The actionPlan does not exist.");
 		}
-		
-		//非同期コマンドの実行
-		Command command = new Command();
-		command.setCommandName(CommandName.CheckBusinessProcessUsed);
-		command.getMessage().put("BusinessProcessId", actionPlan.getActionPlanId().actionPlanId());
-		commandExecutor.execute(command);
-		
 		actionPlanRepository.remove(actionPlan);
 	}
 

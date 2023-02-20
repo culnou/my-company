@@ -151,19 +151,21 @@ public class PlaceCategoryApplicationService {
 				throw new Exception(checker.avarable(placeCategoryId));
 			}
 			registry.remove(placeCategory);
-			
+			System.out.println("***** PPPPPP1111");
 			//非同期コマンドの実行
 			Command command = new Command();
 			command.setCommandName(CommandName.CheckBusinessUnitUsed);
 			command.getMessage().put("BusinessUnitId", placeCategory.getBusinessUnitId().businessUnitId());
 			commandExecutor.execute(command);
-			
+			System.out.println("***** PPPPPP2222");
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
 			return message;
 		}
+		
+		
 		return message;
 	}
 	

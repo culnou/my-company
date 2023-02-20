@@ -6,10 +6,16 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.culnou.mumu.company.adapter.messaging.Command;
+import com.culnou.mumu.company.adapter.messaging.CommandExecutor;
+import com.culnou.mumu.company.adapter.messaging.CommandName;
 import com.culnou.mumu.company.application.CompanyService;
-
+import com.culnou.mumu.company.domain.model.ActionPlan;
+import com.culnou.mumu.company.domain.model.ActionPlanId;
+import com.culnou.mumu.company.domain.model.ActionPlanRepository;
 import com.culnou.mumu.company.domain.model.project.Project;
 import com.culnou.mumu.company.domain.model.project.ProjectId;
 import com.culnou.mumu.company.domain.service.ActionPlanChecker;
@@ -27,6 +33,13 @@ public class ActionPlanDomainService {
 	private CompanyService companyService;
 	@Autowired
 	private ActionPlanChecker checker;
+	
+	@Qualifier("actionPlanJpaRepository")
+	@Autowired
+	private ActionPlanRepository actionPlanRepository;
+	
+	@Autowired
+	private CommandExecutor commandExecutor;
 	
 	public MessageDto addActionPlan(ActionPlanDto dto) {
 		MessageDto message = new MessageDto();
@@ -67,7 +80,14 @@ public class ActionPlanDomainService {
 			if(!checker.avarable(actionPlanId).equals("OK")) {
 				throw new Exception(checker.avarable(actionPlanId));
 			}
+			ActionPlan ap = actionPlanRepository.actionPlanOfId(new ActionPlanId(actionPlanId));
+			String businessProcessId = ap.getBusinessProcessId().businessProcessId();
 			companyService.deleteActionPlan(actionPlanId);
+			//非同期コマンドの実行
+			Command command = new Command();
+			command.setCommandName(CommandName.CheckBusinessProcessUsed);
+			command.getMessage().put("BusinessProcessId", businessProcessId);
+			commandExecutor.execute(command);
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");
