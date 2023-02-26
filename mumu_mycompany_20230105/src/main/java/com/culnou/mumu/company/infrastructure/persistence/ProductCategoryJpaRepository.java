@@ -56,6 +56,9 @@ public class ProductCategoryJpaRepository extends AbstractProductCategoryReposit
 	    if(entity.getProductClass() != null) {
 	    	category.setProductClass(entity.getProductClass());
 	    }
+	    if(entity.getAssociatedCustomerCategories() != null) {
+	    	category.setAssociatedCustomerCategories(entity.getAssociatedCustomerCategories());
+	    }
 	    if(entity.getRoles() != null) {
 	    	category.setRoles(entity.getRoles());
 	    }
@@ -139,6 +142,9 @@ public class ProductCategoryJpaRepository extends AbstractProductCategoryReposit
 			entity.setProductClass(category.productClass());
 		}
 		
+		if(category.getAssociatedCustomerCategories() != null) {
+			entity.setAssociatedCustomerCategories(category.getAssociatedCustomerCategories());
+		}
 		if(category.roles() != null) {
 			entity.setRoles(category.roles());
 		}

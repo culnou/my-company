@@ -706,7 +706,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(productCategory.productClass() != null) {
 			dto.setProductClass(productCategory.productClass());
 		}
-		
+		if(productCategory.getAssociatedCustomerCategories() != null) {
+			dto.setAssociatedCustomerCategories(productCategory.getAssociatedCustomerCategories());
+		}
 		if(productCategory.roles() != null) {
 			dto.setRoles(productCategory.roles());
 		}
@@ -846,6 +848,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		if(department.getUrl() != null) {
 			dto.setUrl(department.getUrl().getUrl());		
+		}
+		if(department.getAssociatedJobs() != null) {
+			dto.setAssociatedJobs(department.getAssociatedJobs());	
 		}
 		if(department.getGoals() != null) {
 			dto.setGoals(department.getGoals());
@@ -2821,7 +2826,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(productCategoryDto.getProductClass() != null) {
 			productCategory.setProductClass(productCategoryDto.getProductClass());
 		}
-		
+		if(productCategoryDto.getAssociatedCustomerCategories() != null){
+			productCategory.setAssociatedCustomerCategories(productCategoryDto.getAssociatedCustomerCategories());	
+		}
 		if(productCategoryDto.getRoles() != null) {
 			productCategory.setRoles(productCategoryDto.getRoles());		
 		}
@@ -2922,6 +2929,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		if(productCategoryDto.getIndustrySubGroupId() != null && productCategoryDto.getIndustrySubGroupName() != null ) {
 			productCategory.setIndustrySubGroup(new IndustrySubGroup(productCategoryDto.getIndustrySubGroupId(), productCategoryDto.getIndustrySubGroupName()));
+		}
+		if(productCategoryDto.getAssociatedCustomerCategories() != null){
+			productCategory.setAssociatedCustomerCategories(productCategoryDto.getAssociatedCustomerCategories());	
 		}
 		if(productCategoryDto.getProductClass() != null) {
 			productCategory.setProductClass(productCategoryDto.getProductClass());
@@ -3452,10 +3462,18 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public DepartmentDto addDepartment(DepartmentDto departmentDto) throws Exception {
 		// TODO Auto-generated method stub
+		//ジョブは複数になったので以下を削除する。2023/2/26
+		/*
 		Job job = jobRepository.jobOfId(new JobId(departmentDto.getJobId()));
+		
 		if(job == null) {
 			throw new Exception("The job does not exist.");
 		}
+		*/
+		if(departmentDto.getAssociatedJobs().size() == 0){
+			throw new Exception("The job does not exist.");
+		}
+		Job job = jobRepository.jobOfId(new JobId(departmentDto.getAssociatedJobs().get(0).getJobId()));
 		DepartmentId departmentId = departmentRepository.nextIdentity();
 		Department department = job.definDepartment(departmentId, departmentDto.getDepartmentType(), departmentDto.getDepartmentName());
 		//NULLのままだと値オブジェクトを生成するときNULLエラーになるので、任意項目については、アプリケーションでNULLを渡さないようにチェックする（ASの事前条件）
@@ -3476,6 +3494,9 @@ public class CompanyServiceImpl implements CompanyService {
         }
         if(departmentDto.getAchievements() != null) {
         	department.setAchievements(departmentDto.getAchievements());
+        }
+        if(departmentDto.getAssociatedJobs() != null){
+        	department.setAssociatedJobs(departmentDto.getAssociatedJobs());      
         }
         department.setAssociatedApplicationCategories(departmentDto.getAssociatedApplicationCategories());
         department.setAssociatedPartnerCategories(departmentDto.getAssociatedPartnerCategories());
@@ -3511,6 +3532,9 @@ public class CompanyServiceImpl implements CompanyService {
         }
         if(departmentDto.getUrl() != null) {
         	department.setUrl(new Url(departmentDto.getUrl()));
+        }
+        if(departmentDto.getAssociatedJobs() != null){
+        	department.setAssociatedJobs(departmentDto.getAssociatedJobs());      
         }
         if(departmentDto.getGoals() != null) {
         	department.setGoals(departmentDto.getGoals());

@@ -36,6 +36,9 @@ public class ProductCategory {
 	private Personality personality;
 	@Getter
 	@Setter
+	private List<AssociatedCustomerCategory> associatedCustomerCategories = new ArrayList<>();
+	@Getter
+	@Setter
 	private List<Goal> goals = new ArrayList<>();
 	@Getter
 	@Setter

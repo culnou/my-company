@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.culnou.mumu.company.domain.model.Achievement;
+import com.culnou.mumu.company.domain.model.AssociatedCustomerCategory;
 import com.culnou.mumu.company.domain.model.Goal;
 import com.culnou.mumu.company.domain.model.Goods;
 import com.culnou.mumu.company.domain.model.ProductClass;
@@ -45,6 +46,7 @@ public class ProductCategoryDto {
 	private Personality personality;
 	private List<Goal> goals = new ArrayList<>();
 	private List<Achievement> achievements = new ArrayList<>();
+	private List<AssociatedCustomerCategory> associatedCustomerCategories = new ArrayList<>();
 	private String url;
 	private String customerJourney;
 	private String serviceScenario;

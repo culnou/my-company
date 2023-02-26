@@ -40,6 +40,9 @@ public class DepartmentJpaRepository extends AbstractDepartmentRepository {
 		if(entity.getUrl() != null) {
 			pojo.setUrl(entity.getUrl());
 		}
+		if(entity.getAssociatedJobs() != null) {
+			pojo.setAssociatedJobs(entity.getAssociatedJobs());
+		}
 		if(entity.getGoals() != null) {
 			pojo.setGoals(entity.getGoals());
 		}
@@ -76,6 +79,9 @@ public class DepartmentJpaRepository extends AbstractDepartmentRepository {
 		}
 		if(pojo.getUrl() != null) {
 			entity.setUrl(pojo.getUrl());
+		}
+		if(pojo.getAssociatedJobs() != null) {
+			entity.setAssociatedJobs(pojo.getAssociatedJobs());
 		}
 		if(pojo.getGoals() != null) {
 			entity.setGoals(pojo.getGoals());

@@ -1538,6 +1538,13 @@ public class CompanyRestController {
 		return ResponseEntity.ok().body(result);
 	}
 	
+	
+	@GetMapping("/departments/tasks/{departmentId}")
+	@CrossOrigin
+	public ResponseEntity<List<TaskDto>> findDepartmentTakse(@PathVariable String departmentId) throws Exception{
+		return ResponseEntity.ok().body((List<TaskDto>)this.departmentApplicationService.tasksOfDepartment(departmentId));
+	}
+	
 
 	/*
 	 * アクション

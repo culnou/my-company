@@ -22,6 +22,7 @@ import com.culnou.mumu.company.domain.model.JobType;
 import com.culnou.mumu.company.domain.model.Role;
 import com.culnou.mumu.company.domain.model.Url;
 
+
 import lombok.Data;
 
 
@@ -50,6 +51,7 @@ public class JobEntity {
 	private String businessDomainName;
 	@Column(name = "job_description")
 	private String jobDescription;
+	
 	@Embedded
 	private Url url;
 	@ElementCollection

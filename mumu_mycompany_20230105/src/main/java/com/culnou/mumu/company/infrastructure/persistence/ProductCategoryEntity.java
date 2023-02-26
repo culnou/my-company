@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.culnou.mumu.company.domain.model.Achievement;
+import com.culnou.mumu.company.domain.model.AssociatedCustomerCategory;
 import com.culnou.mumu.company.domain.model.BusinessUnitId;
 import com.culnou.mumu.company.domain.model.CompanyId;
 import com.culnou.mumu.company.domain.model.CustomerCategoryId;
@@ -68,6 +69,8 @@ public class ProductCategoryEntity {
 	private Industry industry;
 	@Embedded
 	private IndustrySubGroup industrySubGroup;
+	@ElementCollection
+	private List<AssociatedCustomerCategory> associatedCustomerCategories = new ArrayList<>();
 	@ElementCollection
 	private List<Role> roles = new ArrayList<>();
 	@ElementCollection

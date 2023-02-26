@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.culnou.mumu.company.domain.model.application.category.AssociatedApplicationCategory;
 import com.culnou.mumu.company.domain.model.common.BusinessState;
+import com.culnou.mumu.company.domain.model.member.type.AssociatedJob;
 import com.culnou.mumu.company.domain.model.partner.category.AssociatedPartnerCategory;
 
 import lombok.Getter;
@@ -45,6 +46,9 @@ public class Department {
 	@Getter
 	@Setter
 	private BusinessState businessState;
+	@Getter
+	@Setter
+	List<AssociatedJob> associatedJobs = new ArrayList<>();
 	@Getter
 	@Setter
 	private List<AssociatedApplicationCategory> associatedApplicationCategories = new ArrayList<>();

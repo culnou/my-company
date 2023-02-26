@@ -9,6 +9,7 @@ import com.culnou.mumu.company.domain.model.DepartmentType;
 import com.culnou.mumu.company.domain.model.Goal;
 import com.culnou.mumu.company.domain.model.application.category.AssociatedApplicationCategory;
 import com.culnou.mumu.company.domain.model.common.BusinessState;
+import com.culnou.mumu.company.domain.model.member.type.AssociatedJob;
 import com.culnou.mumu.company.domain.model.partner.category.AssociatedPartnerCategory;
 
 import lombok.Data;
@@ -31,6 +32,7 @@ public class DepartmentDto {
 	private String url;
 	private List<Goal> goals = new ArrayList<>();
 	private List<Achievement> achievements = new ArrayList<>();
+	private List<AssociatedJob> associatedJobs = new ArrayList<>();
 	private List<AssociatedApplicationCategory> associatedApplicationCategories = new ArrayList<>();
 	private List<AssociatedPartnerCategory> associatedPartnerCategories = new ArrayList<>();
 	private Date startDate;

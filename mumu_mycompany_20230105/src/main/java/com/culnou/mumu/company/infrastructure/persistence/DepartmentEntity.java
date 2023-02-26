@@ -26,6 +26,7 @@ import com.culnou.mumu.company.domain.model.JobId;
 import com.culnou.mumu.company.domain.model.Url;
 import com.culnou.mumu.company.domain.model.application.category.AssociatedApplicationCategory;
 import com.culnou.mumu.company.domain.model.common.BusinessState;
+import com.culnou.mumu.company.domain.model.member.type.AssociatedJob;
 import com.culnou.mumu.company.domain.model.partner.category.AssociatedPartnerCategory;
 
 import lombok.Data;
@@ -65,6 +66,8 @@ public class DepartmentEntity {
 	private List<Goal> goals = new ArrayList<>();
 	@ElementCollection
 	private List<Achievement> achievements = new ArrayList<>();
+	@ElementCollection
+	private List<AssociatedJob> associatedJobs = new ArrayList<>();
 	@Column(name = "startdate")
 	private Date startDate;
 	
