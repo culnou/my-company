@@ -2,6 +2,8 @@ package com.culnou.mumu.company.domain.model.business.domain;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class BusinessDomainDomainService {
 	 */
 	public MessageDto defineBusinessDomain(BusinessDomainDto dto) {
 		MessageDto message = new MessageDto();
+		Logger logger = LogManager.getLogger();
 		try {
 			//事前条件
 	        //コントローラーからの入力値の妥当性を保証する
@@ -88,10 +91,13 @@ public class BusinessDomainDomainService {
 			
 			
 			companyService.addBusinessDomain(dto);
+			
+			logger.info("defineBusinessDomain");
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
+			logger.error("defineBusinessDomain:", ex);
 			return message;
 		}
 		return message;
@@ -99,6 +105,7 @@ public class BusinessDomainDomainService {
 	
 	public MessageDto updateBusinessDomain(BusinessDomainDto dto) {
 		MessageDto message = new MessageDto();
+		Logger logger = LogManager.getLogger();
 		try {
 			
 			//事前条件
@@ -154,10 +161,12 @@ public class BusinessDomainDomainService {
 				dto.setEnterprise(false);
 			}
 			companyService.updateBusinessDomain(dto);
+			logger.info("updateBusinessDomain");
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
+			logger.error("updateBusinessDomain",ex);
 			return message;
 		}
 		return message;
@@ -165,6 +174,7 @@ public class BusinessDomainDomainService {
 	
 	public MessageDto removeBusinessDomain(String businessDomainId) {
 		MessageDto message = new MessageDto();
+		Logger logger = LogManager.getLogger();
 		try {
 			//事前条件
 	        //コントローラーからの入力値の妥当性を保証する
@@ -185,10 +195,12 @@ public class BusinessDomainDomainService {
 				throw new Exception("The_BusinessDomain_can_not_be_removed");
 			}
 			companyService.deleteBusinessDomain(businessDomainId);
+			logger.info("removeBusinessDomain");
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
+			logger.error("removeBusinessDomain", ex);
 			return message;
 		}
 		return message;
