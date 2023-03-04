@@ -91,9 +91,8 @@ public class BusinessDomainDomainService {
 			
 			
 			companyService.addBusinessDomain(dto);
-			
-			logger.info("defineBusinessDomain");
 			message.setResult("OK");
+			logger.info("defineBusinessDomain");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
