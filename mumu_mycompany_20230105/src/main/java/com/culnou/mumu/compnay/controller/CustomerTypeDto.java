@@ -27,6 +27,7 @@ public class CustomerTypeDto {
 	private List<Indicator> indicators = new ArrayList<>();
 	private List<Attribute> attributes = new ArrayList<>();
 	private String dataTypeId;
+	private String referenceDataId;
 	//データ
 	private String entityName;//エンティティ名
 	private String entityEnglishName;//エンティティ英語名

@@ -230,6 +230,9 @@ public class DataTypeService{
 		if(entity.getUrl() != null) {
 			dto.setUrl(entity.getUrl().getUrl());
 		}
+		if(entity.getSystemUrl() != null) {
+			dto.setSystemUrl(entity.getSystemUrl());
+		}
 		dto.setIndicators(entity.getIndicators());
 		dto.setCreatedAt(entity.getCreatedAt());
 		dto.setUpdatedAt(entity.getUpdatedAt());
@@ -272,6 +275,9 @@ public class DataTypeService{
 		entity.setCompanyId(new CompanyId(dto.getCompanyId()));
 		if(dto.getDataOwnerId() != null && !dto.getDataOwnerId().isEmpty()) {
 			entity.setDataOwnerId(dto.getDataOwnerId());
+		}
+		if(dto.getSystemUrl() != null && !dto.getSystemUrl().isEmpty()) {
+			entity.setSystemUrl(dto.getSystemUrl());
 		}
 		if(dto.getUrl() != null && !dto.getUrl().isEmpty()) {
 			entity.setUrl(new Url(dto.getUrl()));

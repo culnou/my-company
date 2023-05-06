@@ -12,6 +12,7 @@ import com.culnou.mumu.company.domain.model.Goal;
 import com.culnou.mumu.company.domain.model.Size;
 import com.culnou.mumu.company.domain.model.common.BusinessState;
 import com.culnou.mumu.company.domain.model.common.Personality;
+import com.culnou.mumu.domain.model.AssociatedCode;
 
 import lombok.Data;
 @Data
@@ -38,6 +39,7 @@ public class CustomerCategoryDto {
 	private List<Age> ages;
 	private List<Goal> goals = new ArrayList<>();
 	private List<Achievement> achievements = new ArrayList<>();
+	List<AssociatedCode> associatedCodes = new ArrayList<>();
 	private Date startDate;
 	private Date endDate;
 	private BusinessState businessState;

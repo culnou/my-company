@@ -63,6 +63,8 @@ public class CustomerTypeEntity {
 	private Date updatedAt;
 	@Embedded
 	private DataTypeId dataTypeId;
+	@Column(name = "reference_data_id")
+	private String referenceDataId;
 	//データ関連
 	@Column(name = "entity_name")
 	private String entityName;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.culnou.mumu.company.domain.model.common.BusinessState;
 import com.culnou.mumu.company.domain.model.common.Personality;
+import com.culnou.mumu.domain.model.AssociatedCode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +41,9 @@ public class CustomerCategory {
 	@Getter
 	@Setter
 	private List<Achievement> achievements = new ArrayList<>();
+	@Getter
+	@Setter
+	List<AssociatedCode> associatedCodes = new ArrayList<>();
 	@Getter
 	@Setter
 	private Date startDate;
@@ -182,6 +186,24 @@ public class CustomerCategory {
 	}
 	public Personality personality() {
 		return this.personality;
+	}
+	//同じコード分類のコードは追加できないようにします。
+	public void setAssociatedCode(AssociatedCode associatedCode) throws Exception{
+		/*
+		if(this.associatedCodes.contains(associatedCode)) {
+			throw new Exception("The_associated_code_is_already_exist");
+		}
+		*/
+		for(AssociatedCode code : this.associatedCodes) {
+			if(code.getCodeCategoryId().equals(associatedCode.getCodeCategoryId())) {
+				throw new Exception("The_code_category_is_already_exist");
+			}
+		}
+		this.associatedCodes.add(associatedCode);
+	}
+	
+	public void removeAssociatedCode(AssociatedCode associatedCode) throws Exception{
+		this.associatedCodes.remove(associatedCode);
 	}
 
 }

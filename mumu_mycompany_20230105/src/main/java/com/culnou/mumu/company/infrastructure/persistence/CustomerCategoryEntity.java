@@ -30,6 +30,7 @@ import com.culnou.mumu.company.domain.model.Size;
 import com.culnou.mumu.company.domain.model.Url;
 import com.culnou.mumu.company.domain.model.common.BusinessState;
 import com.culnou.mumu.company.domain.model.common.Personality;
+import com.culnou.mumu.domain.model.AssociatedCode;
 
 import lombok.Data;
 @Entity
@@ -78,6 +79,8 @@ public class CustomerCategoryEntity {
 	private List<Goal> goals = new ArrayList<>();
 	@ElementCollection
 	private List<Achievement> achievements = new ArrayList<>();
+	@ElementCollection
+	List<AssociatedCode> associatedCodes = new ArrayList<>();
 	@Column(name = "startdate")
 	private Date startDate;
 	

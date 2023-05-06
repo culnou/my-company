@@ -57,5 +57,11 @@ public class ApplicationTypeJpaRepository implements ApplicationTypeRepository {
 		return repository.findApplicationTypesOfJob(new JobId(jobId));
 	}
 
+	@Override
+	public List<ApplicationType> findApplicationTypesByName(String companyId, String applicationTypeName) throws Exception {
+		// TODO Auto-generated method stub
+		return repository.findApplicationTypesByName(new CompanyId(companyId), applicationTypeName);
+	}
+
 
 }

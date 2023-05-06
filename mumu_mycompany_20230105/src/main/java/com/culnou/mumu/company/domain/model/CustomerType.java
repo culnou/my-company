@@ -47,7 +47,9 @@ public class CustomerType {
 	@Setter
 	@Getter
 	private DataTypeId dataTypeId;
-	
+	@Setter
+	@Getter
+	private String referenceDataId;
 	//データ
 	@Setter
 	@Getter

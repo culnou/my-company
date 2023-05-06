@@ -418,6 +418,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(customerType.getIssue() != null) {
 			dto.setIssue(customerType.getIssue());
 		}
+		if(customerType.getReferenceDataId() != null) {
+			dto.setReferenceDataId(customerType.getReferenceDataId());
+		}
 		if(customerType.problem() != null) {
 			dto.setProblem(customerType.problem());
 		}
@@ -651,6 +654,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		if(customerCategory.getAchievements() != null) {
 			dto.setAchievements(customerCategory.getAchievements());
+		}
+		if(customerCategory.getAssociatedCodes() != null) {
+			dto.setAssociatedCodes(customerCategory.getAssociatedCodes());
 		}
 		if(customerCategory.getBusinessUnitId() != null) {
 			dto.setBusinessUnitId(customerCategory.getBusinessUnitId().businessUnitId());
@@ -1973,6 +1979,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(customerTypeDto.getDataTypeId() != null) {
 			customerType.setDataTypeId(new DataTypeId(customerTypeDto.getDataTypeId()));
 		}
+		if(customerTypeDto.getReferenceDataId() != null) {
+			customerType.setReferenceDataId(customerTypeDto.getReferenceDataId());
+		}
 		
 		
 		if(customerTypeDto.getBusinessDomainId() != null) {
@@ -2025,6 +2034,9 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		if(customerTypeDto.getProblem() != null ) {
 			customerType.setProblem(customerTypeDto.getProblem());
+		}
+		if(customerTypeDto.getReferenceDataId() != null) {
+			customerType.setReferenceDataId(customerTypeDto.getReferenceDataId());
 		}
 		
 		if(customerTypeDto.getUrl() != null) {
@@ -2570,6 +2582,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(customerCategoryDto.getAchievements() != null) {
 			customerCategory.setAchievements(customerCategoryDto.getAchievements());
 		}
+		if(customerCategoryDto.getAssociatedCodes() != null) {
+			customerCategory.setAssociatedCodes(customerCategoryDto.getAssociatedCodes());
+		}
 		if(customerCategoryDto.getUrl() != null ) {
 			customerCategory.setUrl(new Url(customerCategoryDto.getUrl()));
 		}
@@ -2588,6 +2603,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public void updateCustomerCategory(CustomerCategoryDto customerCategoryDto) throws Exception {
+		
+		
+		
 		// TODO Auto-generated method stub
 		if(customerCategoryDto == null) {
 			throw new IllegalArgumentException("The customerCategoryDto name may not be set to null.");
@@ -2648,6 +2666,9 @@ public class CompanyServiceImpl implements CompanyService {
 		if(customerCategoryDto.getAchievements() != null) {
 			customerCategory.setAchievements(customerCategoryDto.getAchievements());
 		}
+		if(customerCategoryDto.getAssociatedCodes() != null) {
+			customerCategory.setAssociatedCodes(customerCategoryDto.getAssociatedCodes());
+		}
 		if(customerCategoryDto.getUrl() != null ) {
 			customerCategory.setUrl(new Url(customerCategoryDto.getUrl()));
 		}
@@ -2657,6 +2678,10 @@ public class CompanyServiceImpl implements CompanyService {
 		if(customerCategoryDto.getBusinessUnitId() != null) {
 			customerCategory.setBusinessUnitId(new BusinessUnitId(customerCategoryDto.getBusinessUnitId()));
         }
+		
+		System.out.println("******koko************* "+customerCategoryDto.getAssociatedCodes().size());
+		
+		
 		//事後条件
 		//製品カテゴリ、事業単位で使用されている場合は編集、削除できない。->CustomerCategory.validateEdit
 		List<ProductCategory> productCategories = productCategoryRepository.productCategoriesOfCustomerCategory(new CustomerCategoryId(customerCategoryDto.getCustomerCategoryId()));

@@ -64,6 +64,8 @@ public class DataType {
 	@Embedded
 	private Url url;
 	
+	@Column(name = "system_url")
+	private String systemUrl;
 	
 	@ElementCollection
 	private List<Indicator> indicators = new ArrayList<>();

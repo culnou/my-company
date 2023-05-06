@@ -105,6 +105,7 @@ import com.culnou.mumu.company.domain.model.service.ProductServiceService;
 
 
 import com.culnou.mumu.company.domain.service.IndicatorType;
+import com.culnou.mumu.domain.model.AssociatedCode;
 
 
 
@@ -897,6 +898,19 @@ public class CompanyRestController {
 		return HttpStatus.OK;
 	}
 	*/
+	/*
+	 * 2023/5/6 追加
+	 */
+	@PutMapping("/customerCategories/associatedCode/{customerCategoryId}")
+	@CrossOrigin
+	public ResponseEntity<MessageDto> setAssociatedCodeToCustomerCategory(@PathVariable String customerCategoryId, @RequestBody AssociatedCode associatedCode) throws Exception{
+		return ResponseEntity.ok().body((MessageDto)this.customerCategoryDomainService.addAssociatedCodeToCustomerCategory(customerCategoryId, associatedCode));
+	}
+	@DeleteMapping("/customerCategories/associatedCode/{customerCategoryId}")
+	@CrossOrigin
+	public ResponseEntity<MessageDto> removeAssociatedCodeToCustomerCategory(@PathVariable String customerCategoryId, @RequestBody AssociatedCode associatedCode) throws Exception{
+		return ResponseEntity.ok().body((MessageDto)this.customerCategoryDomainService.removeAssociatedCodeToCustomerCategory(customerCategoryId, associatedCode));
+	}
 	
 	@PutMapping("/customerCategories")
 	@CrossOrigin
@@ -2737,6 +2751,12 @@ public class CompanyRestController {
 	@CrossOrigin
 	public ResponseEntity<List<ApplicationTypeDto>>  findApplicationTypesOfjob(@PathVariable String jobId) throws Exception{
 		return ResponseEntity.ok().body((List<ApplicationTypeDto>)this.applicationTypeService.findApplicationTypesOfJob(jobId));
+	}
+	
+	@GetMapping("/applicationTypes/company/{companyId}/applicationTypeName/{applicationTypeName}")
+	@CrossOrigin
+	public ResponseEntity<List<ApplicationTypeDto>>  findApplicationTypesByName(@PathVariable String companyId, @PathVariable String applicationTypeName) throws Exception{
+		return ResponseEntity.ok().body((List<ApplicationTypeDto>)this.applicationTypeService.findApplicationTypesByName(companyId, applicationTypeName));
 	}
 	
 	@PostMapping("/applicationTypes")

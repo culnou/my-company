@@ -59,6 +59,10 @@ public class ApplicationTypeRegistry {
 		return repository.findApplicationTypesOfJob(jobId);
 	}
 	
+	protected List<ApplicationType> findApplicationTypesByName(String companyId, String applicationName) throws Exception{
+		return repository.findApplicationTypesByName(companyId, applicationName);
+	}
+	
 	protected List<ApplicationType> findApplicationTypesOfCompany(String companyId) throws Exception{
 		return repository.findApplicationTypesOfCompany(companyId);
 	}

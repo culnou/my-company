@@ -62,6 +62,9 @@ public class CustomerCategoryJpaRepository extends AbstractCustomerCategoryRepos
 	    if(entity.getAchievements() != null) {
 	    	category.setAchievements(entity.getAchievements());
 	    }
+	    if(entity.getAssociatedCodes() != null) {
+	    	category.setAssociatedCodes(entity.getAssociatedCodes());
+	    }
 	    if(entity.getUrl() != null) {
 	    	category.setUrl(entity.getUrl());
 		}
@@ -114,6 +117,9 @@ public class CustomerCategoryJpaRepository extends AbstractCustomerCategoryRepos
 		}
 		if(category.getAchievements() != null) {
 			entity.setAchievements(category.getAchievements());
+		}
+		if(category.getAssociatedCodes() != null) {
+			entity.setAssociatedCodes(category.getAssociatedCodes());
 		}
 		if(category.getUrl() != null) {
 			entity.setUrl(category.getUrl());

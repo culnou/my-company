@@ -37,6 +37,9 @@ public class CustomerTypeJpaRepository extends AbstractCustomerTypeRepository {
 		if(entity.getProblem() != null) {
 			type.setProblem(entity.getProblem());
 		}
+		if(entity.getReferenceDataId() != null) {
+			type.setReferenceDataId(entity.getReferenceDataId());
+		}
 		if(entity.getUrl() != null) {
 			type.setUrl(entity.getUrl());
 		}
@@ -100,6 +103,9 @@ public class CustomerTypeJpaRepository extends AbstractCustomerTypeRepository {
 		}
 		if(type.getIssue() != null) {
 			entity.setIssue(type.getIssue());
+		}
+		if(type.getReferenceDataId() != null) {
+			entity.setReferenceDataId(type.getReferenceDataId());
 		}
 		if(type.problem() != null) {
 			entity.setProblem(type.problem());

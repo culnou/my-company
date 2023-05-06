@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,23 @@ public class ApplicationTypeService {
 		return this.convertApplicationTypes(registry.findApplicationTypesOfCompany(companyId));
 	}
 	
+	public List<ApplicationTypeDto> findApplicationTypesByName(String companyId, String applicationTypeName) throws Exception{
+		if(companyId == null) {
+			throw new Exception("The_companyId_may_not_be_set_to_null");
+		}
+		if(companyId.isEmpty()) {
+			throw new Exception("Must_provide_a_companyId");
+		}
+		
+		if(applicationTypeName == null) {
+			throw new Exception("The_applicationTypeName_may_not_be_set_to_null");
+		}
+		if(applicationTypeName.isEmpty()) {
+			throw new Exception("Must_provide_a_applicationTypeName");
+		}
+		return this.convertApplicationTypes(registry.findApplicationTypesByName(companyId, applicationTypeName));
+	}
+	
 	public List<ApplicationTypeDto> findApplicationTypesOfBusinessDomain(String businessDomainId) throws Exception{
 		if(businessDomainId == null) {
 			throw new Exception("The_businessDomainId_may_not_be_set_to_null");
@@ -74,6 +93,7 @@ public class ApplicationTypeService {
 	
 	public MessageDto defineApplicationType(ApplicationTypeDto dto) {
 		MessageDto message = new MessageDto();
+		Logger logger = LogManager.getLogger();
 		try {
 			//事前条件
 	        //コントローラーからの入力値の妥当性を保証する
@@ -97,22 +117,32 @@ public class ApplicationTypeService {
 			if(company == null) {
 				throw new Exception("The_company_may_not_exist");
 			}
+			List<ApplicationType> applicationTypes = registry.findApplicationTypesByName(dto.getCompanyId(),dto.getApplicationTypeName());
+			if(applicationTypes.size() > 0) {
+				throw new Exception("The_application_name_is_already_exist");
+			}
 			//ビジネスロジック
 			ApplicationType entity = this.convertFiancialAssetTypeDto(dto);
 			entity.setApplicationTypeId(registry.nextIdentity());
 			entity.setCreatedAt(new Date());
 			registry.save(entity);
 			message.setResult("OK");
+			//ロギング
+			logger.info("defineApplicationType");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
-			return message;
+			//ロギング
+			logger.error("defineApplicationType error",ex);
+			//return message;
 		}
 		return message;
 	}
 	
 	public MessageDto updateApplicationType(ApplicationTypeDto dto) {
+		
 		MessageDto message = new MessageDto();
+		Logger logger = LogManager.getLogger();
 		try {
 			//事前条件
 	        //コントローラーからの入力値の妥当性を保証する
@@ -155,10 +185,14 @@ public class ApplicationTypeService {
 			entity.setUpdatedAt(new Date());
 			registry.save(entity);
 			message.setResult("OK");
+			//ロギング
+			logger.info("updateApplicationType");
 		}catch(Exception ex) {
 			message.setResult("NG");
 			message.setErrorMessage(ex.getMessage());
-			return message;
+			//ロギング
+			logger.error("updateApplicationType error",ex);
+			//return message;
 		}
 		return message;
 	}

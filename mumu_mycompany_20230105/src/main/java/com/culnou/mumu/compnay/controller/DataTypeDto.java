@@ -20,6 +20,7 @@ public class DataTypeDto {
 	private DataClass dataClass;
 	private String dataOwnerId;
 	private String url;
+	private String systemUrl;
 	private List<Indicator> indicators = new ArrayList<>();
 	private String dataOwner;//データオーナー
 	private String address;//データオーナーのメールアドレス
