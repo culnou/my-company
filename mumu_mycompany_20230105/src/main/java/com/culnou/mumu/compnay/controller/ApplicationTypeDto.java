@@ -22,6 +22,7 @@ public class ApplicationTypeDto {
 	private String jobId;
 	private String jobName;
 	private String url;
+	private boolean code;
 	private List<Indicator> indicators = new ArrayList<>();
 	private Date createdAt;
 	private Date updatedAt;

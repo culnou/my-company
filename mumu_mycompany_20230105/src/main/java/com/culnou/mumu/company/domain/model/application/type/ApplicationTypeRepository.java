@@ -16,6 +16,8 @@ public interface ApplicationTypeRepository {
 	
 	public List<ApplicationType> findApplicationTypesByName(String companyId, String applicationTypeName) throws Exception;
 	
+	public List<ApplicationType> findCodeMasterManagement(String companyId) throws Exception;
+	
 	public void save(ApplicationType applicationType) throws Exception;
 	
 	public void remove(ApplicationType applicationType) throws Exception;

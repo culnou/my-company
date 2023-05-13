@@ -63,5 +63,11 @@ public class ApplicationTypeJpaRepository implements ApplicationTypeRepository {
 		return repository.findApplicationTypesByName(new CompanyId(companyId), applicationTypeName);
 	}
 
+	@Override
+	public List<ApplicationType> findCodeMasterManagement(String companyId) throws Exception {
+		// TODO Auto-generated method stub
+		return repository.findCodeMasterManagement(new CompanyId(companyId));
+	}
+
 
 }

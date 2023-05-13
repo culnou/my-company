@@ -2756,7 +2756,7 @@ public class CompanyRestController {
 	@GetMapping("/applicationTypes/company/{companyId}/applicationTypeName/{applicationTypeName}")
 	@CrossOrigin
 	public ResponseEntity<List<ApplicationTypeDto>>  findApplicationTypesByName(@PathVariable String companyId, @PathVariable String applicationTypeName) throws Exception{
-		return ResponseEntity.ok().body((List<ApplicationTypeDto>)this.applicationTypeService.findApplicationTypesByName(companyId, applicationTypeName));
+		return ResponseEntity.ok().body((List<ApplicationTypeDto>)this.applicationTypeService.findCodeMasterManagement(companyId));
 	}
 	
 	@PostMapping("/applicationTypes")

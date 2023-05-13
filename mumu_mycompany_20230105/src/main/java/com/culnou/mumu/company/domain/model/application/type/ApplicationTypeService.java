@@ -61,6 +61,17 @@ public class ApplicationTypeService {
 		return this.convertApplicationTypes(registry.findApplicationTypesByName(companyId, applicationTypeName));
 	}
 	
+	public List<ApplicationTypeDto> findCodeMasterManagement(String companyId) throws Exception{
+		if(companyId == null) {
+			throw new Exception("The_companyId_may_not_be_set_to_null");
+		}
+		if(companyId.isEmpty()) {
+			throw new Exception("Must_provide_a_companyId");
+		}
+		
+		return this.convertApplicationTypes(registry.findCodeMasterManagement(companyId));
+	}
+	
 	public List<ApplicationTypeDto> findApplicationTypesOfBusinessDomain(String businessDomainId) throws Exception{
 		if(businessDomainId == null) {
 			throw new Exception("The_businessDomainId_may_not_be_set_to_null");
@@ -121,6 +132,14 @@ public class ApplicationTypeService {
 			if(applicationTypes.size() > 0) {
 				throw new Exception("The_application_name_is_already_exist");
 			}
+			//コードマスタ管理システムの重複を避ける。
+			if(dto.isCode() == true) {
+				List<ApplicationType> codes = registry.findCodeMasterManagement(dto.getCompanyId());
+				if(codes.size() > 0) {
+					throw new Exception("The_code_master_is_already_exist");
+				}
+			}
+			
 			//ビジネスロジック
 			ApplicationType entity = this.convertFiancialAssetTypeDto(dto);
 			entity.setApplicationTypeId(registry.nextIdentity());
@@ -244,6 +263,9 @@ public class ApplicationTypeService {
 		if(entity.getJobName() != null) {
 			dto.setJobName(entity.getJobName());
 		}
+		
+		dto.setCode(entity.isCode());
+		
 		dto.setApplicationTypeName(entity.getApplicationTypeName());
 		dto.setApplicationTypeDescription(entity.getApplicationTypeDescription());
 		if(entity.getUrl() != null) {
@@ -282,6 +304,9 @@ public class ApplicationTypeService {
 		if(dto.getJobName() != null && !dto.getJobName().isEmpty()) {
 			entity.setJobName(dto.getJobName());
 		}
+		
+		entity.setCode(dto.isCode());
+		
 		entity.setCompanyId(new CompanyId(dto.getCompanyId()));
 		if(dto.getUrl() != null && !dto.getUrl().isEmpty()) {
 			entity.setUrl(new Url(dto.getUrl()));

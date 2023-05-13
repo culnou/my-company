@@ -76,6 +76,9 @@ public class ApplicationType {
 	@Column(name = "job_name")
 	private String jobName;
 	
+	@Column(name = "code")
+	private boolean code;
+	
 	@Embedded
 	private Url url;
 	

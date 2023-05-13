@@ -66,6 +66,10 @@ public class ApplicationTypeRegistry {
 	protected List<ApplicationType> findApplicationTypesOfCompany(String companyId) throws Exception{
 		return repository.findApplicationTypesOfCompany(companyId);
 	}
+	
+	protected List<ApplicationType> findCodeMasterManagement(String companyId) throws Exception{
+		return repository.findCodeMasterManagement(companyId);
+	}
 
 
 

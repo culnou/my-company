@@ -29,5 +29,7 @@ public interface ApplicationTypeJpaDataRepository extends JpaRepository<Applicat
 	@Query(value = "select applicationType from ApplicationType applicationType where applicationType.companyId = :CompanyId and applicationType.applicationTypeName = :ApplicationTypeName")
 	public List<ApplicationType> findApplicationTypesByName(@Param("CompanyId") CompanyId companyId, @Param("ApplicationTypeName") String applicationTypeName);
 
+	@Query(value = "select applicationType from ApplicationType applicationType where applicationType.companyId = :CompanyId and applicationType.code = TRUE")
+	public List<ApplicationType> findCodeMasterManagement(@Param("CompanyId") CompanyId companyId);
 
 }
