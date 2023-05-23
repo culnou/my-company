@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.culnou.mumu.company.adapter.messaging.Command;
-import com.culnou.mumu.company.adapter.messaging.CommandExecutor;
-import com.culnou.mumu.company.adapter.messaging.CommandName;
+
+
+
 import com.culnou.mumu.company.application.CompanyService;
 import com.culnou.mumu.company.domain.model.ActionPlan;
 import com.culnou.mumu.company.domain.model.ActionPlanId;
 import com.culnou.mumu.company.domain.model.ActionPlanRepository;
+import com.culnou.mumu.company.domain.model.BusinessProcess;
+import com.culnou.mumu.company.domain.model.BusinessProcessId;
+import com.culnou.mumu.company.domain.model.BusinessProcessRepository;
 import com.culnou.mumu.company.domain.model.project.Project;
 import com.culnou.mumu.company.domain.model.project.ProjectId;
 import com.culnou.mumu.company.domain.service.ActionPlanChecker;
@@ -29,6 +32,10 @@ public class ActionPlanDomainService {
 	@Autowired
 	private ProjectAdapter projectAdapter;
 	
+	@Qualifier("businessProcessJpaRepository")
+	@Autowired
+	private BusinessProcessRepository businessProcessRepository;
+	
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
@@ -38,8 +45,7 @@ public class ActionPlanDomainService {
 	@Autowired
 	private ActionPlanRepository actionPlanRepository;
 	
-	@Autowired
-	private CommandExecutor commandExecutor;
+	
 	
 	public MessageDto addActionPlan(ActionPlanDto dto) {
 		MessageDto message = new MessageDto();
@@ -83,11 +89,17 @@ public class ActionPlanDomainService {
 			ActionPlan ap = actionPlanRepository.actionPlanOfId(new ActionPlanId(actionPlanId));
 			String businessProcessId = ap.getBusinessProcessId().businessProcessId();
 			companyService.deleteActionPlan(actionPlanId);
+			BusinessProcess businessProcess = businessProcessRepository.businessProcessOfId(new BusinessProcessId(businessProcessId));
+			if(businessProcess == null) {
+				throw new Exception("The_businessUnitId_is_not_exist");
+			}
+			/*2023/5/14
 			//非同期コマンドの実行
 			Command command = new Command();
 			command.setCommandName(CommandName.CheckBusinessProcessUsed);
 			command.getMessage().put("BusinessProcessId", businessProcessId);
 			commandExecutor.execute(command);
+			*/
 			message.setResult("OK");
 		}catch(Exception ex) {
 			message.setResult("NG");

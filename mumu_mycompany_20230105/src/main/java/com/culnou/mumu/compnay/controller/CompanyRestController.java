@@ -1860,6 +1860,13 @@ public class CompanyRestController {
 		
 	}
 	
+	@DeleteMapping("/actionPlans/delete/{id}")
+	@CrossOrigin
+	public ResponseEntity<MessageDto> removeActionPlan(@PathVariable String id) throws Exception{
+		return ResponseEntity.ok().body((MessageDto)this.actionPlanService.removeActionPlan(id));
+		
+	}
+	
 	@GetMapping("/actionPlans/{id}")
 	@CrossOrigin
 	public ResponseEntity<ActionPlanDto> findActionPlanById(@PathVariable String id) throws Exception{

@@ -27,6 +27,7 @@ public class DataTypeDto {
 	private String associatedConstraint;//関連制約
 	private String existenceConstraint;//存在制約
 	private String dataAmount;//データ量
+	private String businessProcessId;
 	private String parentId;
 	private Date createdAt;
 	private Date updatedAt;

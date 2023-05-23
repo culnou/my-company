@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.culnou.mumu.company.domain.model.BusinessDomainId;
+import com.culnou.mumu.company.domain.model.BusinessProcessId;
 import com.culnou.mumu.company.domain.model.CompanyId;
 import com.culnou.mumu.company.domain.model.Indicator;
 import com.culnou.mumu.company.domain.model.Url;
@@ -96,6 +97,10 @@ public class DataType {
 	
 	@Column(name = "parent_id")
 	private String parentId;
+	
+	//トランザクションデータは、ビジネスプロセスごとに作成される。2023/5/23
+	@Embedded
+	private BusinessProcessId businessProcessId;
 	
 	@Column(name = "created_at")
 	private Date createdAt;

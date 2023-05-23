@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.culnou.mumu.company.domain.model.BusinessDomainId;
-
+import com.culnou.mumu.company.domain.model.BusinessProcessId;
 import com.culnou.mumu.company.domain.model.CompanyId;
 import com.culnou.mumu.company.domain.model.Url;
 import com.culnou.mumu.company.domain.model.common.CompanyAdapter;
@@ -233,6 +233,9 @@ public class DataTypeService{
 		if(entity.getSystemUrl() != null) {
 			dto.setSystemUrl(entity.getSystemUrl());
 		}
+		if(entity.getBusinessProcessId() != null) {
+			dto.setBusinessProcessId(entity.getBusinessProcessId().businessProcessId());
+		}
 		dto.setIndicators(entity.getIndicators());
 		dto.setCreatedAt(entity.getCreatedAt());
 		dto.setUpdatedAt(entity.getUpdatedAt());
@@ -279,6 +282,10 @@ public class DataTypeService{
 		if(dto.getSystemUrl() != null && !dto.getSystemUrl().isEmpty()) {
 			entity.setSystemUrl(dto.getSystemUrl());
 		}
+		if(dto.getBusinessProcessId() != null && !dto.getBusinessProcessId().isEmpty()) {
+			entity.setBusinessProcessId(new BusinessProcessId(dto.getBusinessProcessId()));
+		}
+		
 		if(dto.getUrl() != null && !dto.getUrl().isEmpty()) {
 			entity.setUrl(new Url(dto.getUrl()));
 		}else {
